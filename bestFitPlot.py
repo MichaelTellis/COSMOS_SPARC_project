@@ -128,7 +128,7 @@ def find_best_func(R, V_obs):
 	return best_fit, max_r_squared, finala, finalb, finalc
 
 
-fits = {"best fit": [], "R^2":[], "a":[],"b":[],"c":[]}
+fits = {"galaxy name":[],"best fit": [], "R^2":[], "a":[],"b":[],"c":[]}
 for i in range(len(galaxy_names)):
 	galaxy_name = galaxy_names[i]
 	galaxy_file = FILE_PATH + galaxy_name + "_rotmod.dat"
@@ -138,22 +138,27 @@ for i in range(len(galaxy_names)):
 	last_point = V_obs[len(V_obs)-1]
 	best_fit, r_squared, a, b, c = find_best_func(R, V_obs)	
 	if best_fit == "negative_exponential_func":
+		print("galaxy name: " + str(galaxy_name))
 		print("best fit: " + best_fit)
 		print("R^2: " + str(r_squared))
 		print("a: " + str(-a))
 		print("b: " + str(-b))
 		print("c: " + str(c))
+		fits["galaxy name"].append(galaxy_name)
 		fits["best fit"].append(best_fit)
 		fits["R^2"].append(r_squared)
 		fits["a"].append(-a)
 		fits["b"].append(-b)
 		fits["c"].append(c)
+
 	else:
+		print("galaxy name: " + str(galaxy_name))
 		print("best fit: " + best_fit)
 		print("R^2: " + str(r_squared))
 		print("a: " + str(a))
 		print("b: " + str(b))
 		print("c: " + str(c))
+		fits["galaxy name"].append(galaxy_name)
 		fits["best fit"].append(best_fit)
 		fits["R^2"].append(r_squared)
 		fits["a"].append(a)
