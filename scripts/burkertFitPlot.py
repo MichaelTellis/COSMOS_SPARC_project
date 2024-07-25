@@ -8,7 +8,8 @@ from sklearn.metrics import r2_score
 from scipy.stats import chi2_contingency
 from scipy.constants import G
 
-
+#This script calculates the best fit Burkert velocity profile for a set of rotation curves from the SPARC database. 
+#If you would like to also calculate the best fit using other functions, uncomment the commented code. 
 '''
 Usage instructions:
 requirements:
@@ -237,7 +238,7 @@ def get_chi_2(x, V_obs,a, b,c, function):
 fits = {"galaxy name":[], "Chi^2/df":[], "rs":[],"c200":[],"v200":[], "data points": [], "galaxy_type": []}
 for i in range(len(galaxy_names)):
 	galaxy_name = galaxy_names[i]
-	#galaxy_name = "NGC5055"
+	
 	galaxy_type = hubble_types[i]
 	galaxy_file = FILE_PATH + galaxy_name + "_rotmod.dat"
 	R, V_obs, error_V_obs, V_gas, V_disk, V_bulge, SB_disk, SB_bulge = np.loadtxt(galaxy_file, unpack=True)
