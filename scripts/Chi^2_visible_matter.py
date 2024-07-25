@@ -44,14 +44,6 @@ for i in range(len(hubble_types)):
 print(summary_df)
 print(galaxy_names)
 
-
-'''
-R, V_obs, error_V_obs, V_gas, V_disk, V_bulge, SB_disk, SB_bulge = np.loadtxt(galaxy_file, unpack=True)
-
-print(R)
-
-'''
-
 def Chi_test(galaxy_name,file_path, start, end, interval):
 	
 	galaxy_file = file_path + galaxy_name + "_rotmod.dat"
