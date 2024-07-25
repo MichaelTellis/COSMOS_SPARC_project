@@ -23,7 +23,7 @@ arg 3: file path to where your SPARC data is (right click a data file and click 
 start_time = time.time()
 SUMMARY_FILE = sys.argv[1]
 FILE_PATH = sys.argv[2]
-# prune galaxies with R < 8
+
 COLUMN_NAMES = ["Galaxy Name","Hubble Type (1)", "Distance Mpc", "Mean error on D Mpc", 
 "Distance Method (2)", "Inclination deg", "Mean error on Inc deg", "Total Luminosity at [3.6]_10+9solLum",
 "Mean error on L[3.6]_10+9solLum", "Effective Radius at [3.6] kpc", "Effective Surface Brightness at [3.6]_solLum/pc2", 
