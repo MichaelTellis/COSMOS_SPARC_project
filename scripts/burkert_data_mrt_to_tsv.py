@@ -1,6 +1,6 @@
 import pandas as pd 
 import sys
- Burkert table file path
+#Burkert table file path
 BURKERT_FILE = sys.argv[1]
 #### Constants
 COLUMN_NAMES = ["Name", "Ydisk - Stellar mass-to-light ratio for disks", "Error on Ydisk", 
