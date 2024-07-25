@@ -34,11 +34,12 @@ HUBBLE_TYPE = {"0":"S0","1":"Sa","2":"Sab","3":"Sb", "4":"Sbc", "5":"Sc",
  "6":"Scd", "7":"Sd", "8":"Sdm", "9":"Sm", "10":"Im", "11":"BCD"}
 FUNCTION_TYPE = ["negative_exponential_func", "logarithmic_func", "exponential_func", "polynomial_func", "power_func", "radical_func"]
 COLSPECS = [(0,11),(12,14),(14,20),(20,25),(25,27),(27,31),(31,35),(35,42),(42,49),(49,54),(54,62),(62,67),(67,75),(75,82),(82,87),(87,92),(92,97),(97,100),(100,114)]
+#This reads summary txt file and organizes into dataframe
 summary_df = pd.read_fwf(SUMMARY_FILE, header=None,names=COLUMN_NAMES, colspecs=COLSPECS)
 galaxy_names = summary_df[COLUMN_NAMES[0]].tolist()
 
 
-
+# functions
 def negative_exponential_func(x, a, b, c):
 	return -a * np.exp(-b * x) + c
 
@@ -68,7 +69,7 @@ def find_best_func(R, V_obs):
 		a = 0
 		b= 0
 		c = 0
-		#please find a better way to do this 
+		# Runs a curve fit on each funciton, the one with the best r_squared is kept.
 		if function == "negative_exponential_func":
 			try:
 				params, covariance = curve_fit(negative_exponential_func, R, V_obs)
@@ -83,6 +84,7 @@ def find_best_func(R, V_obs):
 				a, b = params
 				y_pred = logarithmic_func(R, a, b)
 				r_squared = r2_score(V_obs, y_pred)
+				c = None
 			except RuntimeError as e:
 				pass
 		elif function == "exponential_func":
@@ -115,6 +117,7 @@ def find_best_func(R, V_obs):
 				a, b = params
 				y_pred = radical_func(R, a, b)
 				r_squared = r2_score(V_obs, y_pred)
+				c = None
 			except RuntimeError as e:
 				pass
 		else:
@@ -129,14 +132,19 @@ def find_best_func(R, V_obs):
 
 
 fits = {"galaxy name":[],"best fit": [], "R^2":[], "a":[],"b":[],"c":[]}
+# runs through each galaxy. 
 for i in range(len(galaxy_names)):
 	galaxy_name = galaxy_names[i]
+	# Open data file for each galaxy. 
 	galaxy_file = FILE_PATH + galaxy_name + "_rotmod.dat"
 	R, V_obs, error_V_obs, V_gas, V_disk, V_bulge, SB_disk, SB_bulge = np.loadtxt(galaxy_file, unpack=True)
 
 
-	last_point = V_obs[len(V_obs)-1]
+	#last_point = V_obs[len(V_obs)-1]
+	
+	#finds the best fit function as well as best fit parameters 
 	best_fit, r_squared, a, b, c = find_best_func(R, V_obs)	
+	#adds best fit parameters, R^2, and function to fits dictionary
 	if best_fit == "negative_exponential_func":
 		print("galaxy name: " + str(galaxy_name))
 		print("best fit: " + best_fit)
@@ -164,14 +172,8 @@ for i in range(len(galaxy_names)):
 		fits["a"].append(a)
 		fits["b"].append(b)
 		fits["c"].append(c)
-fits = pd.DataFrame(fits)
-fits.to_csv("fit_functions.tsv", sep = "\t", index = False)
-print("Wrote data to tsv file: fit_functions.tsv")
-print(fits)
-runtime = time.time() - start_time
-print("runtime: " + str(runtime))
-
-'''
+	#Uncomment this to plot an individual galaxy 
+	'''
 	x_fit = np.linspace(min(R), max(R), 100)
 	y_fit = None
 
@@ -196,5 +198,14 @@ print("runtime: " + str(runtime))
 	plt.legend()
 	plt.show()
 	break 
-'''
+	'''
+#Writes fits dictionary to dataframe, and then writes it to "fit_functions.tsv" 
+fits = pd.DataFrame(fits)
+fits.to_csv("fit_functions.tsv", sep = "\t", index = False)
+print("Wrote data to tsv file: fit_functions.tsv")
+print(fits)
+runtime = time.time() - start_time
+print("runtime: " + str(runtime))
+
+
 
