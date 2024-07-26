@@ -49,7 +49,27 @@ galaxy_names_dominant_dm =[
     "UGCA444"
 ]
 
+#set other variabels
+average_density_sd = []
+average_density_sdm = []
+average_density_sm = []
+average_density_bcd = []
+average_density_scd = []
+average_density_im = []
 
+max_sd = 0
+max_sdm = 0
+max_sm = 0
+max_bcd = 0
+max_scd = 0
+max_im = 0
+
+count_sd = 0
+count_sdm = 0
+count_sm = 0
+count_bcd = 0
+count_scd = 0
+count_im = 0
 
 #get plots ready
 fig, axs = plt.subplots(3,2, figsize=(50,50))
@@ -73,42 +93,83 @@ for i in range(len(galaxy_names_list)):
     x_fit = np.linspace(0,galaxy_radius[i], 100) 
     y_fit = burkert(x_fit, list(halo_radius)[i], list(halo_volume_density)[i])
  
-    '''
-    #divide for ratio
-    x_ratio = np.divide(x_fit, 1)
-    y_ratio = np.divide(y_fit, 1)
-    '''
     #graphy graphy and pruney pruney
     if (hubble_type[i] == 7) and (galaxy_name in galaxy_names_dominant_dm):
         axs[0,0].plot(x_fit, y_fit, label="Dark matter densisty for" + galaxy_name)
-        #axs[0,0].legend()
         axs[0,0].set_title("Sd Galaxies")
+        average_density_sd.append(y_fit)
+        count_sd += 1
+        if list(galaxy_radius)[i] > max_sd:
+            max_sd = list(galaxy_radius)[i]
     elif (hubble_type[i] == 8) and (galaxy_name in galaxy_names_dominant_dm):
         axs[0,1].plot(x_fit, y_fit, label="Dark matter densisty for" + galaxy_name)
-        #axs[0,1].legend()
         axs[0,1].set_title("Sdm Galaxies")
+        average_density_sdm.append(y_fit)
+        count_sdm += 1
+        if list(galaxy_radius)[i] > max_sdm:
+            max_sdm = list(galaxy_radius)[i]
     elif (hubble_type[i] == 9) and (galaxy_name in galaxy_names_dominant_dm):
         axs[1,0].plot(x_fit, y_fit, label="Dark matter densisty for" + galaxy_name)
-        #axs[1,0].legend()
         axs[1,0].set_title("Sm Galaxies")
+        average_density_sm.append(y_fit)
+        count_sm += 1
+        if list(galaxy_radius)[i] > max_sm:
+            max_sm = list(galaxy_radius)[i]
     elif (hubble_type[i] == 11) and (galaxy_name in galaxy_names_dominant_dm):
         axs[1,1].plot(x_fit, y_fit, label="Dark matter densisty for" + galaxy_name)  
-        #axs[1,1].legend()
         axs[1,1].set_title("BCD Galaxies")
+        average_density_bcd.append(y_fit)
+        count_bcd += 1
+        if list(galaxy_radius)[i] > max_bcd:
+            max_bcd = list(galaxy_radius)[i]
     elif (hubble_type[i] == 10) and (galaxy_name in galaxy_names_dominant_dm):
-     axs[2,0].plot(x_fit, y_fit,)
-     axs[2,0].set_title("Im Galaxies")
+        axs[2,0].plot(x_fit, y_fit,)
+        axs[2,0].set_title("Im Galaxies")
+        average_density_im.append(y_fit)
+        count_im += 1
+        if list(galaxy_radius)[i] > max_im:
+            max_im = list(galaxy_radius)[i]
     elif (hubble_type[i] == 6) and (galaxy_name in galaxy_names_dominant_dm):
-     axs[2,1].plot(x_fit, y_fit)
-     axs[2,1].set_title("Scd Galaxies")
-
-
+        axs[2,1].plot(x_fit, y_fit)
+        axs[2,1].set_title("Scd Galaxies")
+        average_density_scd.append(y_fit)
+        count_scd += 1
+        if list(galaxy_radius)[i] > max_scd:
+            max_scd = list(galaxy_radius)[i]
+print(max_sm)
 #logify axis
+
+
 for ax in axs.flat:
    ax.set_yscale('log')
    ax.set_xscale('log')
- 
 
+#average functions
+if count_sd > 0:
+    x_fit = np.linspace(0,max_sd, 100)
+    avg_sd = np.mean(average_density_sd, axis=0)
+    axs[0, 0].plot(x_fit, avg_sd, color='black', linestyle='--', label='Average')
+if count_sdm > 0:
+    x_fit = np.linspace(0,max_sdm, 100)
+    avg_sdm = np.mean(average_density_sdm, axis=0)
+    axs[0, 1].plot(x_fit, avg_sdm, color='black', linestyle='--', label='Average')
+if count_sm > 0:
+    x_fit = np.linspace(0,max_sm, 100)
+    avg_sm = np.mean(average_density_sm, axis=0)
+    axs[1, 0].plot(x_fit, avg_sm, color='black', linestyle='--', label='Average')
+if count_bcd > 0:
+    x_fit = np.linspace(0,max_bcd, 100)
+    avg_bcd = np.mean(average_density_bcd, axis=0)
+    axs[1, 1].plot(x_fit, avg_bcd, color='black', linestyle='--', label='Average')
+if count_im > 0:
+    x_fit = np.linspace(0,max_im, 100)
+    avg_im = np.mean(average_density_im, axis=0)
+    axs[2, 0].plot(x_fit, avg_im, color='black', linestyle='--', label='Average')
+if count_scd > 0:
+    x_fit = np.linspace(0,max_scd, 100)
+    avg_scd = np.mean(average_density_scd, axis=0)
+    axs[2, 1].plot(x_fit, avg_scd, color='black', linestyle='--', label='Average')
+    
 #name graphs
 axs[2, 0].set_xlabel('Radius kpc')
 axs[2, 1].set_xlabel('Radius kpc')
@@ -118,5 +179,7 @@ axs[0, 1].set_ylabel(r'Density M$_\odot$/pc$^3$')
 axs[1, 1].set_ylabel(r'Density M$_\odot$/pc$^3$')
 axs[2, 0].set_ylabel(r'Density M$_\odot$/pc$^3$')
 axs[2, 1].set_ylabel(r'Density M$_\odot$/pc$^3$')
-plt.subplots_adjust(hspace=0.4)  # Increase horizontal and vertical space
+
+#give room on plots
+plt.subplots_adjust(hspace=0.4)
 plt.show()
