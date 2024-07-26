@@ -96,7 +96,7 @@ for i in range(len(galaxy_names_list)):
         #axs[1,1].legend()
         axs[1,1].set_title("BCD Galaxies")
     elif (hubble_type[i] == 10) and (galaxy_name in galaxy_names_dominant_dm):
-     axs[2,0].plot(x_fit, y_fit)
+     axs[2,0].plot(x_fit, y_fit,)
      axs[2,0].set_title("Im Galaxies")
     elif (hubble_type[i] == 6) and (galaxy_name in galaxy_names_dominant_dm):
      axs[2,1].plot(x_fit, y_fit)
@@ -110,10 +110,13 @@ for ax in axs.flat:
  
 
 #name graphs
-axs[1, 0].set_xlabel('Radius kpc')
-axs[1, 1].set_xlabel('Radius kpc')
+axs[2, 0].set_xlabel('Radius kpc')
+axs[2, 1].set_xlabel('Radius kpc')
 axs[0, 0].set_ylabel(r'Density M$_\odot$/pc$^3$')
 axs[1, 0].set_ylabel(r'Density M$_\odot$/pc$^3$')
 axs[0, 1].set_ylabel(r'Density M$_\odot$/pc$^3$')
 axs[1, 1].set_ylabel(r'Density M$_\odot$/pc$^3$')
+axs[2, 0].set_ylabel(r'Density M$_\odot$/pc$^3$')
+axs[2, 1].set_ylabel(r'Density M$_\odot$/pc$^3$')
+plt.subplots_adjust(hspace=0.4)  # Increase horizontal and vertical space
 plt.show()
