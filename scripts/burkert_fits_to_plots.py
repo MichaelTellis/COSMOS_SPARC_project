@@ -1,5 +1,4 @@
 import numpy as np
-import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import pandas as pd
@@ -25,6 +24,19 @@ if len(sys.argv) > 4:
 	one_galaxy = True
 
 #CONSTANTS
+DM_GALAXY = [
+	"DDO064", "DDO154", "DDO170",
+	"IC2574", "NGC1705", "NGC2915", "NGC3741",
+	"NGC4214", "UGC00731", "UGC00891", "UGC02259",
+	"UGC04278", "UGC04325", "UGC05005", "UGC05716", "UGC05721",
+	"UGC05750", "UGC05764", "UGC05829", "UGC05918", "UGC05986",
+	"UGC05999", "UGC06399", "UGC06446", "UGC06667", "UGC06917",
+	"UGC06930", "UGC06983", "UGC07151", "UGC07261",
+	"UGC07399", "UGC07524", "UGC07603", "UGC07608",
+	"UGC07866", "UGC08286", "UGC08490", "UGC08550", "UGC10310",
+	"UGC11820", "UGC12632", "UGC12732", "UGCA442",
+	"UGCA444"]
+
 COLUMN_NAMES = ["Galaxy Name","Hubble Type (1)", "Distance Mpc", "Mean error on D Mpc", 
 "Distance Method (2)", "Inclination deg", "Mean error on Inc deg", "Total Luminosity at [3.6]_10+9solLum",
 "Mean error on L[3.6]_10+9solLum", "Effective Radius at [3.6] kpc", "Effective Surface Brightness at [3.6]_solLum/pc2", 
@@ -38,12 +50,13 @@ COLSPECS = [(0,11),(12,14),(14,20),(20,25),(25,27),(27,31),(31,35),(35,42),(42,4
 summary_df = pd.read_fwf(SUMMARY_FILE, header=None,names=COLUMN_NAMES, colspecs=COLSPECS)
 #creates list of hubble types, galaxy names, and outer radii of galaxies. 
 galaxy_names = summary_df[COLUMN_NAMES[0]].tolist()
+summary_df = summary_df.set_index("Galaxy Name")
 hubble_types = summary_df[COLUMN_NAMES[1]].tolist()
 galaxy_radii = summary_df[COLUMN_NAMES[9]].tolist()
 galaxy_radii = np.array(galaxy_radii, dtype= float)
-print(galaxy_radii)
+#print(galaxy_radii)
 burkert_df = pd.read_csv(BURKERT_FITS, sep="\t",index_col = "galaxy name")
-print(burkert_df)
+#print(burkert_df)
 
 
 #burkert velocity equation.
@@ -70,114 +83,179 @@ if one_galaxy:
 else:
 	galaxy_names = burkert_df.index.tolist()
 	
-	print(galaxy_names)
 
-	fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+	fig, axs = plt.subplots(3, 3, figsize=(10, 8))
 	sm_yfit = []
 	sdm_yfit = []
 	sd_yfit = []
 	BCD_yfit = []
+	IM_yfit = []
+	scd_yfit = []
 	sm_count = 0
 	sdm_count = 0
 	sd_count = 0
 	BCD_count = 0
+	IM_count = 0
+	scd_count = 0
 
 
 	sm_maxr = 0
 	sd_maxr = 0
 	sdm_maxr = 0
 	BCD_maxr = 0
-
+	IM_maxr = 0
+	scd_maxr = 0
+	print(summary_df)
 	for i in range(len(galaxy_names)):
 		galaxy_name = galaxy_names[i]
-		galaxy_type = hubble_types[i]
-		galaxy_file = SPARC_DATA_PATH + galaxy_name + "_rotmod.dat"
-		R, V_obs, error_V_obs, V_gas, V_disk, V_bulge, SB_disk, SB_bulge = np.loadtxt(galaxy_file, unpack=True)
+		if galaxy_name in DM_GALAXY:
+			print(galaxy_name)
+			galaxy_type = summary_df.loc[galaxy_name,"Hubble Type (1)"]
+			galaxy_file = SPARC_DATA_PATH + galaxy_name + "_rotmod.dat"
+			R, V_obs, error_V_obs, V_gas, V_disk, V_bulge, SB_disk, SB_bulge = np.loadtxt(galaxy_file, unpack=True)
+			
 
-		x_fit = np.linspace(min(R), max(R), 100)
-		y_fit = burkert(x_fit,burkert_df.loc[galaxy_name,"rs"],burkert_df.loc[galaxy_name,"c200"],burkert_df.loc[galaxy_name,"v200"])
+			x_fit = np.linspace(min(R), max(R), 100)
+			y_fit = burkert(x_fit,burkert_df.loc[galaxy_name,"rs"],burkert_df.loc[galaxy_name,"c200"],burkert_df.loc[galaxy_name,"v200"])
 
-		x_fit = np.divide(x_fit, np.max(R))
+			x_fit = np.divide(x_fit, np.max(R))
 
 
+			print(galaxy_type)
+			if galaxy_type == 7:
+				axs[0,0].plot(x_fit, y_fit, label = galaxy_name)
+				sd_yfit.append(y_fit)
+				sd_count +=1
+				if np.max(R) > sd_maxr:
+					sd_maxr = np.max(R)
+			if galaxy_type == 8:
+				axs[0,1].plot(x_fit, y_fit, label = galaxy_name)
+				sdm_yfit.append(y_fit)
+				sdm_count +=1
+				if np.max(R) > sdm_maxr:
+					sdm_maxr = np.max(R)
+			if galaxy_type == 9:
+				axs[1,0].plot(x_fit, y_fit, label = galaxy_name)
+				sm_yfit.append(y_fit)
+				sm_count +=1
+				if np.max(R) > sm_maxr:
+					sm_maxr = np.max(R)
+			if galaxy_type == 11:
+				
+				axs[1,1].plot(x_fit, y_fit, label = galaxy_name)
+				BCD_yfit.append(y_fit)
+				BCD_count +=1
+				if np.max(R) > BCD_maxr:
+					BCD_maxr = np.max(R)
+			if galaxy_type == 10:
+				axs[0,2].plot(x_fit, y_fit, label = galaxy_name)
+				IM_yfit.append(y_fit)
+				IM_count +=1
+				if np.max(R) > IM_maxr:
+					IM_maxr = np.max(R)
+			if galaxy_type == 6:
+				axs[1,2].plot(x_fit, y_fit, label = galaxy_name)
+				scd_yfit.append(y_fit)
+				scd_count +=1
+				if np.max(R) > scd_maxr:
+					scd_maxr = np.max(R)
 
-		if galaxy_type == 7:
-			axs[0,0].plot(x_fit, y_fit, label = galaxy_name)
-			sm_yfit.append(y_fit)
-			sm_count +=1
-			if np.max(R) > sm_maxr:
-				sm_maxr = np.max(R)
-		if galaxy_type == 8:
-			axs[0,1].plot(x_fit, y_fit, label = galaxy_name)
-			sdm_yfit.append(y_fit)
-			sdm_count +=1
-			if np.max(R) > sdm_maxr:
-				sdm_maxr = np.max(R)
-		if galaxy_type == 9:
-			axs[1,0].plot(x_fit, y_fit, label = galaxy_name)
-			sd_yfit.append(y_fit)
-			sd_count +=1
-			if np.max(R) > sd_maxr:
-				sd_maxr = np.max(R)
-		if galaxy_type == 11:
-			axs[1,1].plot(x_fit, y_fit, label = galaxy_name)
-			BCD_yfit.append(y_fit)
-			BCD_count +=1
-			if np.max(R) > BCD_maxr:
-				BCD_maxr = np.max(R)
+	#x_fit = np.linspace(0, sm_maxr, 100)
 	sm_yfit = np.stack(sm_yfit)
 	sm_avg = np.mean(sm_yfit, axis=0)
 	params, cov = curve_fit(burkert, x_fit, sm_avg)
 	sm_r_s, sm_c200, sm_v200 = params
 	sm_burkert_fit = burkert(x_fit, sm_r_s, sm_c200, sm_v200)
 
-
+	#x_fit = np.linspace(0, sdm_maxr, 100)
 	sdm_yfit = np.stack(sdm_yfit)
 	sdm_avg = np.mean(sdm_yfit, axis=0)
 	params, cov = curve_fit(burkert, x_fit, sdm_avg)
 	sdm_r_s, sdm_c200, sdm_v200 = params
 	sdm_burkert_fit = burkert(x_fit, sdm_r_s, sdm_c200, sdm_v200)
 
-
+	#x_fit = np.linspace(0, sd_maxr, 100)
 	sd_yfit = np.stack(sd_yfit)
 	sd_avg = np.mean(sd_yfit, axis=0)
 	params, cov = curve_fit(burkert, x_fit, sd_avg)
 	sd_r_s, sd_c200, sd_v200 = params
 	sd_burkert_fit = burkert(x_fit, sd_r_s, sd_c200, sd_v200)
 
+	#x_fit = np.linspace(0, BCD_maxr, 100)
 	BCD_yfit = np.stack(BCD_yfit)
 	BCD_avg = np.mean(BCD_yfit, axis=0)
 	params, cov = curve_fit(burkert, x_fit, BCD_avg)
 	BCD_r_s, BCD_c200, BCD_v200 = params
 	BCD_burkert_fit = burkert(x_fit, BCD_r_s, BCD_c200, BCD_v200)
 
+	#x_fit = np.linspace(0, IM_maxr, 100)
+	IM_yfit = np.stack(IM_yfit)
+	IM_avg = np.mean(IM_yfit, axis=0)
+	params, cov = curve_fit(burkert, x_fit, IM_avg)
+	IM_r_s, IM_c200, IM_v200 = params
+	IM_burkert_fit = burkert(x_fit, IM_r_s, IM_c200, IM_v200)
+
+	#x_fit = np.linspace(0, IM_maxr, 100)
+	scd_yfit = np.stack(scd_yfit)
+	scd_avg = np.mean(scd_yfit, axis=0)
+	params, cov = curve_fit(burkert, x_fit, scd_avg)
+	scd_r_s, scd_c200, scd_v200 = params
+	scd_burkert_fit = burkert(x_fit, scd_r_s, scd_c200, scd_v200)
+
 
 	# Show the plot
+	'''
 	axs[0,0].plot(x_fit, sm_burkert_fit, linestyle = "--", label = "avg")
 	axs[0,1].plot(x_fit, sdm_burkert_fit, linestyle = "--", label = "avg")
 	axs[1,0].plot(x_fit, sd_burkert_fit, linestyle = "--", label = "avg")
 	axs[1,1].plot(x_fit, BCD_burkert_fit, linestyle = "--", label = "avg")
-	axs[0,0].set_xlabel("Radius/Rmax")
-	axs[0,1].set_xlabel("Radius/Rmax")
-	axs[1,0].set_xlabel("Radius/Rmax")
-	axs[1,1].set_xlabel("Radius/Rmax")
-	axs[0,0].set_ylabel("Velocity km/s")
-	axs[0,1].set_ylabel("Velocity km/s")
-	axs[1,0].set_ylabel("Velocity km/s")
-	axs[1,1].set_ylabel("Velocity km/s")
-	axs[0,0].set_title("sd type galaxy rotational velocity")
-	axs[0,1].set_title("sdm type galaxy rotational velocity")
-	axs[1,0].set_title("sm type galaxy rotational velocity")
-	axs[1,1].set_title("BCD type galaxy rotational velocity")
+	axs[2,0].plot(x_fit, IM_burkert_fit, linestyle = "--", label = "avg")
+	axs[2,1].plot(x_fit, scd_burkert_fit, linestyle = "--", label = "avg")
+	'''
+	
+	axs[2,0].plot(x_fit, sm_burkert_fit, linestyle = "--", label = "mean_sm")
+	axs[2,0].plot(x_fit, sdm_burkert_fit, linestyle = "--", label = "mean_sdm")
+	axs[2,0].plot(x_fit, sd_burkert_fit, linestyle = "--", label = "mean_sd")
+	axs[2,0].plot(x_fit, BCD_burkert_fit, linestyle = "--", label = "mean_BCD")
+	axs[2,0].plot(x_fit, IM_burkert_fit, linestyle = "--", label = "mean_IM")
+	axs[2,0].plot(x_fit, scd_burkert_fit, linestyle = "--", label = "mean_scd")
+
+	
+	axs[0,0].set_xlabel("Radius/Rmax", fontsize = 14)
+	axs[0,1].set_xlabel("Radius/Rmax", fontsize = 14)
+	axs[1,0].set_xlabel("Radius/Rmax", fontsize = 14)
+	axs[1,1].set_xlabel("Radius/Rmax", fontsize = 14)
+	axs[0,2].set_xlabel("Radius/Rmax", fontsize = 14)
+	axs[1,2].set_xlabel("Radius/Rmax", fontsize = 14)
+	axs[2,0].set_xlabel("Radius/Rmax", fontsize = 14)
+	axs[0,0].set_ylabel("Velocity km/s", fontsize = 14)
+	axs[0,1].set_ylabel("Velocity km/s", fontsize = 14)
+	axs[1,0].set_ylabel("Velocity km/s", fontsize = 14)
+	axs[1,1].set_ylabel("Velocity km/s", fontsize = 14)
+	axs[0,2].set_ylabel("Velocity km/s", fontsize = 14)
+	axs[1,2].set_ylabel("Velocity km/s", fontsize = 14)
+	axs[2,0].set_ylabel("Velocity km/s", fontsize = 14)
+	axs[0,0].set_title("Sd Type Galaxy Rotational Velocity", fontsize = 14)
+	axs[0,1].set_title("Sdm Type Galaxy Rotational Velocity", fontsize = 14)
+	axs[1,0].set_title("Sm Type Galaxy Rotational Velocity", fontsize = 14)
+	axs[1,1].set_title("BCD Type Galaxy Rotational Velocity", fontsize = 14)
+	axs[1,2].set_title("Scd Type Galaxy Rotational Velocity", fontsize = 14)
+	axs[0,2].set_title("IM Type Galaxy Rotational Velocity", fontsize = 14)
+	axs[2,0].set_title("Average Rotational Velocity", fontsize = 14)
+
+
+
 	'''
 	axs[0,0].legend()
 	axs[0,1].legend()
 	axs[1,0].legend()
 	axs[1,1].legend()
 
+	
+	axs[0,2].legend()
+	axs[1,2].legend()
 	'''
-
-
+	axs[2,0].legend(fontsize = "x-small")
 	plt.tight_layout()
 
 	plt.show()
