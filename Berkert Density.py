@@ -42,15 +42,15 @@ with open (SUMMARY_FILE, 'rb') as file:
 #make list of DM dominatn galaxies
 galaxy_names_dominant_dm =[
 	"DDO064", "DDO154", "DDO170",
-	"IC2574", "NGC1705", "NGC2915", "NGC3741",
+	 "NGC1705", "NGC2915", "NGC3741",
 	"NGC4214", "UGC00731", "UGC00891", "UGC02259",
-	"UGC04278", "UGC04325", "UGC05005", "UGC05716", "UGC05721",
-	"UGC05750", "UGC05764", "UGC05829", "UGC05918", "UGC05986",
+	"UGC04325", "UGC05005", "UGC05716", "UGC05721",
+	"UGC05764", "UGC05829", "UGC05918", "UGC05986",
 	"UGC05999", "UGC06399", "UGC06446", "UGC06667", "UGC06917",
 	"UGC06930", "UGC06983", "UGC07151", "UGC07261",
 	"UGC07399", "UGC07524", "UGC07603", "UGC07608",
 	"UGC07866", "UGC08286", "UGC08490", "UGC08550", "UGC10310",
-	"UGC11820", "UGC12632", "UGC12732", "UGCA442",
+	 "UGC12632", "UGC12732", "UGCA442",
 	"UGCA444"
 ]
 
@@ -87,7 +87,7 @@ for i in range(len(galaxy_names_list)):
 	hubble_type = np.array(hubble_type_list, dtype=float)
 	
 	#unlogify the density
-	halo_volume_density = np.exp(halo_volume_density)
+	halo_volume_density = np.power(10,halo_volume_density)
 
 	#generate variables
 	x_fit = np.linspace(0,galaxy_radius[i], 100) 
@@ -96,7 +96,7 @@ for i in range(len(galaxy_names_list)):
 	#graphy graphy and pruney pruney
 	if (hubble_type[i] == 7) and (galaxy_name in galaxy_names_dominant_dm):
 		axs[0,0].plot(x_fit, y_fit, label="Dark matter densisty for" + galaxy_name)
-		axs[0,0].set_title("Sd Galaxies")
+		axs[0,0].set_title("Sd Galaxies", fontsize = 20)
 		
 		
 		if list(galaxy_radius)[i] > max_sd:
@@ -104,31 +104,31 @@ for i in range(len(galaxy_names_list)):
 	elif (hubble_type[i] == 8) and (galaxy_name in galaxy_names_dominant_dm):
 
 		axs[0,1].plot(x_fit, y_fit, label="Dark matter densisty for" + galaxy_name)
-		axs[0,1].set_title("Sdm Galaxies")
+		axs[0,1].set_title("Sdm Galaxies", fontsize = 20)
 		
 		if list(galaxy_radius)[i] > max_sdm:
 			max_sdm = list(galaxy_radius)[i]
 	elif (hubble_type[i] == 9) and (galaxy_name in galaxy_names_dominant_dm):
 		axs[1,0].plot(x_fit, y_fit, label="Dark matter densisty for" + galaxy_name)
-		axs[1,0].set_title("Sm Galaxies")
+		axs[1,0].set_title("Sm Galaxies", fontsize = 20)
 		
 		if list(galaxy_radius)[i] > max_sm:
 			max_sm = list(galaxy_radius)[i]
 	elif (hubble_type[i] == 11) and (galaxy_name in galaxy_names_dominant_dm):
 		axs[1,1].plot(x_fit, y_fit, label="Dark matter densisty for" + galaxy_name)  
-		axs[1,1].set_title("BCD Galaxies")
+		axs[1,1].set_title("BCD Galaxies", fontsize = 20)
 		
 		if list(galaxy_radius)[i] > max_bcd:
 			max_bcd = list(galaxy_radius)[i]
 	elif (hubble_type[i] == 10) and (galaxy_name in galaxy_names_dominant_dm):
 		axs[2,0].plot(x_fit, y_fit,)
-		axs[2,0].set_title("Im Galaxies")
+		axs[2,0].set_title("Im Galaxies", fontsize = 20)
 		
 		if list(galaxy_radius)[i] > max_im:
 			max_im = list(galaxy_radius)[i]
 	elif (hubble_type[i] == 6) and (galaxy_name in galaxy_names_dominant_dm):
 		axs[2,1].plot(x_fit, y_fit)
-		axs[2,1].set_title("Scd Galaxies")
+		axs[2,1].set_title("Scd Galaxies", fontsize = 20)
 		
 		if list(galaxy_radius)[i] > max_scd:
 			max_scd = list(galaxy_radius)[i]
@@ -211,6 +211,7 @@ def get_avg(max_r, all_density, threshold):
 	return average_density, x_fit
 
 #average functions
+'''
 avg_sd, x_fit_sd = get_avg(max_sd, density_sd, threshold)
 axs[0, 0].plot(x_fit_sd, avg_sd, color='black', linestyle='--', label='Average')
 
@@ -229,7 +230,7 @@ axs[2, 0].plot(x_fit_im, avg_im, color='black', linestyle='--', label='Average')
 avg_scd, x_fit_scd = get_avg(max_scd, density_scd, threshold)
 axs[2, 1].plot(x_fit_scd, avg_scd, color='black', linestyle='--', label='Average')
 
-
+'''
 
 
 '''
@@ -254,15 +255,14 @@ avg_scd = np.mean(average_density_scd, axis=0)
 axs[2, 1].plot(x_fit, avg_scd, color='black', linestyle='--', label='Average')
 '''
 #name graphs
-axs[2, 0].set_xlabel('Radius kpc')
-axs[2, 1].set_xlabel('Radius kpc')
-axs[0, 0].set_ylabel(r'Density M$_\odot$/pc$^3$')
-axs[1, 0].set_ylabel(r'Density M$_\odot$/pc$^3$')
-axs[0, 1].set_ylabel(r'Density M$_\odot$/pc$^3$')
-axs[1, 1].set_ylabel(r'Density M$_\odot$/pc$^3$')
-axs[2, 0].set_ylabel(r'Density M$_\odot$/pc$^3$')
-axs[2, 1].set_ylabel(r'Density M$_\odot$/pc$^3$')
-
+axs[2, 0].set_xlabel('Radius kpc', fontsize = 16)
+axs[2, 1].set_xlabel('Radius kpc', fontsize = 16)
+axs[0, 0].set_ylabel(r'Density M$_\odot$/pc$^3$', fontsize = 16)
+axs[1, 0].set_ylabel(r'Density M$_\odot$/pc$^3$', fontsize = 16)
+axs[0, 1].set_ylabel(r'Density M$_\odot$/pc$^3$', fontsize = 16)
+axs[1, 1].set_ylabel(r'Density M$_\odot$/pc$^3$', fontsize = 16)
+axs[2, 0].set_ylabel(r'Density M$_\odot$/pc$^3$', fontsize = 16)
+axs[2, 1].set_ylabel(r'Density M$_\odot$/pc$^3$', fontsize = 16)
 #give room on plots
 plt.subplots_adjust(hspace=0.4)
 plt.show()
