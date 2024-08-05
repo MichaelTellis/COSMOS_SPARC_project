@@ -28,7 +28,7 @@ To verify the accuracy of these Burkert rotation curves, we compared the inner a
 ![alt_text](images/image2.png "image_tooltip")
 
 
-**Figure 2: **Comparison of empirical data to the Burkert DM matter model. The mean Vflat difference is +0.12, mean V2kpc difference is -2.01. The larger the vector between two points, the less accurate the Burkert model is at modeling rotational velocity for that galaxy. The Burkert model is more accurate for galaxies with rotational Velocities &lt;70 km/s.
+**Figure 2:** Comparison of empirical data to the Burkert DM matter model. The mean Vflat difference is +0.12, mean V2kpc difference is -2.01. The larger the vector between two points, the less accurate the Burkert model is at modeling rotational velocity for that galaxy. The Burkert model is more accurate for galaxies with rotational Velocities &lt;70 km/s.
 
 To model the DM distribution of a galaxy, we used the Burkert<sup>1</sup> DM density profile. This profile takes in the fitting parameters ⍴<sub>s</sub> and r<sub>s</sub> which were retrieved from the SPARC database to plot the density profiles of each galaxy. These galaxies were also organized by Hubble type and a fitted average was taken.
 
@@ -44,7 +44,7 @@ To model the DM distribution of a galaxy, we used the Burkert<sup>1</sup> DM den
 ![alt_text](images/image4.png "image_tooltip")
 
 
-**Figure 4: **Comparing the average DM density functions for DM-dominated galaxies. 
+**Figure 4:** Comparing the average DM density functions for DM-dominated galaxies. 
 
 From these averages, we were able to make several conclusions about the mass and size of the DM halos surrounding certain galaxy types. A denser DM halo at extended radii implies a more massive DM halo. Ordered from greatest to least DM density at extended radii by Hubble type: Im, Sdm, Sd, Sm, Scd, BCD.
 
