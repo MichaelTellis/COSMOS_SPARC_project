@@ -13,7 +13,6 @@ DM is an indetectable form of matter that only interacts with baryonic matter gr
 Python and MATLAB<sup>6</sup> were used to compare inner and outer velocities in DM-dominated galaxies. To determine which galaxies are DM-dominant, we plotted the observed velocities, velocities contributed by luminous matter assuming an M.L ratio of 0.5, and the inferred velocity contributed by DM. Galaxies where DM contributed more than luminous matter were considered DM-dominant. 
 
 
-
 ![alt_text](images/image1.png "image_tooltip")
   
 
@@ -24,10 +23,6 @@ Once a list of galaxies in the SPARC database that were considered DM-dominant w
 These rotation curves were then organized by Hubble type to analyze the differences in the shapes of rotation curves of different galaxy types. We focused on the Hubble types: Sd, Sm, Sdm, Scd, BCD, and Im.
 
 To verify the accuracy of these Burkert rotation curves, we compared the inner and outer rotational velocities to the empirical data fitted with a spline function. 
-
- 
-
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
 ![alt_text](images/image2.png "image_tooltip")
@@ -40,18 +35,10 @@ To model the DM distribution of a galaxy, we used the Burkert<sup>1</sup> DM den
 **Results & Conclusions**
 
 
-
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image3.png "image_tooltip")
 
 
 **Figure 3:** Average rotation curve best fits for DM-dominated galaxies. 
-
-
-
-<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image4.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
 ![alt_text](images/image4.png "image_tooltip")
@@ -70,17 +57,10 @@ From these averages, we were able to make several conclusions about the mass and
 
 
 
-<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image5.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image5.png "image_tooltip")
 
 
 **Figure 5:** This plot describes the variation in inner velocities based on the outer velocity. The diversity curve shows that galaxies with outer velocities ~65-85 km/s have the greatest range of inner velocities with a sharp decline in both directions. The SPARC data confirms a large variation in dwarf galaxy inner rotation curves which currently has no widely accepted reason for happening.
-
-
-
-<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image6.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
 ![alt_text](images/image6.png "image_tooltip")
