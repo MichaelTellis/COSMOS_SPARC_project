@@ -1,3 +1,5 @@
+*Comparing Dark Matter Density and Velocity Profiles of SPARC Galaxies*
+
 **Abstract**
 
 Our research aims to create an accurate comparison of the dark matter (DM) density and velocity profiles of late-type spiral and dwarf galaxies. This was accomplished using the SPARC<sup>3</sup> (Spitzer Photometry & Accurate Rotation Curves) database and the Burkert<sup>2</sup> DM density profile. 
