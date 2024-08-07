@@ -1,4 +1,4 @@
-#Comparing Dark Matter Density and Velocity Profiles of SPARC Galaxies#
+# Comparing Dark Matter Density and Velocity Profiles of SPARC Galaxies
 
 **Abstract**
 
