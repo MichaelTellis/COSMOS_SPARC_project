@@ -4,6 +4,8 @@ Our research aims to create an accurate comparison of the dark matter (DM) densi
 
 We have built upon correlations between Hubble galaxy type and dark matter density distribution by using a broader range of galaxies.
 
+![alt_text](images/poster.png "image_tooltip")
+
 **Introduction - Dark Matter, SPARC, Burkert**
 
 DM is an indetectable form of matter that only interacts with baryonic matter gravitationally. It explains why the rotational velocity of galaxies increases as a function of the distance from the galaxy’s center instead of decreasing. The SPARC database contains rotational velocity data that can be used to model the rotation curves and densities of matter in galaxies. The Burkert model was developed in 1995 to solve the problem of a cusp trending toward infinite DM density in the core of galaxies found in other models. Because Burkert can be used to predict DM density, it can determine corresponding rotational velocities. This model applies best to dwarf, late-type spiral galaxies, and DM dominant galaxies  - Sd, Sm, Sdm, Scd, BCD, and Im - the galaxies mainly used in this study. 
